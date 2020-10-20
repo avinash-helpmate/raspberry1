@@ -38,8 +38,8 @@ sudo apt-get update
 sudo apt-get install -y iotedge
 sudo nano /etc/iotedge/config.yaml
 #sudo cp config.yaml /etc/iotedge/
-wget https://d1b0l86ne08fsf.cloudfront.net/2.2.0/dist-packages/debian/amd64/mender-client_2.2.0-1_amd64.deb
-sudo dpkg -i mender-client_2.2.0-1_amd64.deb
+wget https://d1b0l86ne08fsf.cloudfront.net/2.2.1/dist-packages/debian/armhf/mender-client_2.2.1-1_armhf.deb
+sudo dpkg -i mender-client_2.2.1-1_armhf.deb
 sudo systemctl stop mender-client
 sudo rm -rf /var/lib/mender/mender-agent.pem
 sudo rm -rf /var/lib/mender/mender-certificate.pfx
