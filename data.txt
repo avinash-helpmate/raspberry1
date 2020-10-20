@@ -1,0 +1,70 @@
+id=echo "DeviceId=demo2002"
+ScopeID=0ne0011CDA9
+CertificatePath=identity_cert: "file:////home/pi/raspberry/edge6.cer"
+keyCertificate=identity_pk: "file:////home/pi/raspberry/edge6.key"
+ipOfServer=51.143.22.248
+
+=RoutingData
+opcuatocloud            FROM /messages/modules/opcua/* INTO $upstream
+opcuaTorollingaverage   FROM /messages/modules/opcua/* INTO BrokeredEndpoint("/modules/rollingaverage/inputs/inputMessage")
+rollingaverageToCloud   FROM /messages/modules/rollingaverage/* INTO $upstream
+modbustcptocloud        FROM /messages/modules/modbustcp/* INTO $upstream
+modbustorulesengine     FROM /messages/modules/modbustcp/* INTO BrokeredEndpoint("/modules/rulesengine/inputs/inputMessage")
+opcuaTorulesengine      FROM /messages/modules/opcua/* INTO BrokeredEndpoint("/modules/rulesengine/inputs/inputMessage")
+rulesengineTocloud      FROM /messages/modules/rulesengine/* INTO $upstream
+modbusTorollingaverage  FROM /messages/modules/modbustcp/* INTO BrokeredEndpoint("/modules/rollingaverage/inputs/inputMessage")
+ASCForIoTRoute          FROM /messages/modules/azureiotsecurity/* INTO $upstream
+
+-GitLink
+https://github.com/atul10864/thing400
+-opcuaSImulator
+https://downloads.prosysopc.com/opc-ua-simulation-server-downloads.php
+-details of iot edge runtime
+https://docs.microsoft.com/en-us/azure/iot-edge/iot-edge-runtime#:~:text=IoT%20Edge%20agent,modules%20back%20to%20IoT%20Hub.
+
+-azure security agent for external vm
+https://docs.microsoft.com/en-us/archive/blogs/yuridiogenes/installing-azure-security-center-agent-on-linux-computer
+
+-azure security agent for azure vm
+https://docs.microsoft.com/en-us/azure/security-center/security-center-enable-data-collection
+-data collection
+https://docs.microsoft.com/en-us/azure/security-center/security-center-enable-data-collection
+-to check threat protection logs
+/var/opt/microsoft/omsagent/<workspace id>/log/
+-to check the connection logs
+/var/opt/microsoft/omsconfig/log/
+to enable ssh:-
+sudo systemctl enable ssh
+sudo systemctl start ssh
+git link for certificates:-
+https://github.com/atul10864/raspberry
+Modbus Simulator:-
+https://modbustools.com/download.html
+OPCUA Simulator:-
+https://downloads.prosysopc.com/opc-ua-simulation-server-downloads.php
+edge module 32 bit solution:-
+https://stackoverflow.com/questions/63249180/one-of-the-iot-edge-module-is-in-backoff-state-raspberry-pi-4-with-raspbian-os
+
+
+
+
+
+
+
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

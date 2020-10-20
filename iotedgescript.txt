@@ -1,0 +1,55 @@
+#/bin/sh
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+apt-cache madison docker-ce
+echo "parshing iotedge runtime older version....."
+# if iotege will present it will delete
+sudo apt-get remove --purge -y iotedge
+# if mobi-cli will present it will delete
+sudo apt-get remove --purge -y moby-cli
+# if moby-engine will present it will delete
+sudo apt-get remove --purge -y moby-engine
+echo "installing iotedge runtime version 1.0.9.9 to support x509....."
+curl https://packages.microsoft.com/config/debian/stretch/multiarch/prod.list > ./microsoft-prod.list
+
+sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo cp ./microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo apt-get update
+# it will install moby-engine
+sudo apt-get install -y moby-engine
+# it will install moby-cli
+sudo apt-get install -y moby-cli
+sudo apt-get update
+sudo apt-get install -y iotedge
+sudo nano /etc/iotedge/config.yaml
+#sudo cp config.yaml /etc/iotedge/
+wget https://d1b0l86ne08fsf.cloudfront.net/2.2.0/dist-packages/debian/amd64/mender-client_2.2.0-1_amd64.deb
+sudo dpkg -i mender-client_2.2.0-1_amd64.deb
+sudo systemctl stop mender-client
+sudo rm -rf /var/lib/mender/mender-agent.pem
+sudo rm -rf /var/lib/mender/mender-certificate.pfx
+sudo cp Edge/edge5.key /var/lib/mender/mender-agent.pem
+sudo cp Edge/edge5.csr /var/lib/mender/mender-certificate.pfx
+sudo rm -rf /etc/hosts
+sudo cp hosts /etc/
+sudo rm -rf /etc/mender/mender.conf
+sudo cp mender.conf /etc/mender/
+sudo rm -rf /usr/share/doc/mender-client/examples/demo.crt
+sudo cp demo.crt /usr/share/doc/mender-client/examples/
+sudo nano /usr/share/mender/identity/mender-device-identity
+#sudo cp mender-device-identity /usr/share/mender/identity/
