@@ -35,7 +35,7 @@ sudo apt-get install -y moby-engine
 # it will install moby-cli
 sudo apt-get install -y moby-cli
 sudo apt-get update
-sudo apt-get install -y iotedge
+sudo apt-get install iotedge=1.0.9.5* libiothsm-std=1.0.9.5*
 sudo nano /etc/iotedge/config.yaml
 #sudo cp config.yaml /etc/iotedge/
 wget https://d1b0l86ne08fsf.cloudfront.net/2.2.1/dist-packages/debian/armhf/mender-client_2.2.1-1_armhf.deb
